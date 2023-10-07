@@ -1,5 +1,6 @@
 package com.zuzex.web.controllers;
 
+import com.zuzex.service.models.DTO.UserRequest;
 import com.zuzex.service.models.User;
 import com.zuzex.service.models.DTO.UserTokenRequest;
 import com.zuzex.service.models.DTO.UserTokenResponse;
@@ -33,20 +34,22 @@ public class LoginRestController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserTokenRequest request) {
-        try {
-            Authentication authentication = authManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getName(), request.getPassword())
-            );
+        Authentication authentication = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getName(), request.getPassword())
+        );
 
-            User user = (User) authentication.getPrincipal();
-            String accessToken = jwtUtil.generateAccessToken(user);
-            UserTokenResponse response = new UserTokenResponse(user.getName(), accessToken);
+        User user = (User) authentication.getPrincipal();
+        String accessToken = jwtUtil.generateAccessToken(user);
+        UserTokenResponse response = new UserTokenResponse(user.getName(), accessToken);
 
-            return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(response);
 
-        } catch (BadCredentialsException ex) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody UserRequest request) {
+        var user = userService.save(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user.toUserResponse());
     }
 }

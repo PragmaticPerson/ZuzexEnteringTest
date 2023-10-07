@@ -1,5 +1,6 @@
 package com.zuzex.service.services;
 
+import com.zuzex.exceptions.model.BadTokenException;
 import com.zuzex.service.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,7 +38,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         if (!jwtUtil.validateAccessToken(token)) {
             filterChain.doFilter(request, response);
-            return;
+            throw new BadTokenException("Something wrong with your token!");
         }
 
         setAuthenticationContext(token, request);
