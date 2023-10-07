@@ -1,13 +1,11 @@
 package com.zuzex.web.controllers;
 
+import com.zuzex.service.models.DTO.HouseRequest;
 import com.zuzex.service.models.DTO.HouseResponse;
 import com.zuzex.service.models.House;
 import com.zuzex.service.services.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,13 +22,18 @@ public class HouseRestController {
     }
 
     @GetMapping()
-    public List<HouseResponse> getAllUsers() {
+    public List<HouseResponse> getAllHouses() {
         var houses = service.findAll();
         return houses.stream().map(House::toHouseResponse).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public HouseResponse getAllHouses(@PathVariable int id) {
+    public HouseResponse getCurrentHouse(@PathVariable int id) {
         return service.findById(id).toHouseResponse();
+    }
+
+    @PostMapping()
+    public HouseResponse addNewHouse(@RequestBody HouseRequest request) {
+        return service.save(request).toHouseResponse();
     }
 }

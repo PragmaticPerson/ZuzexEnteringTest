@@ -9,7 +9,7 @@ import java.util.Set;
 public class House {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String address;
@@ -20,8 +20,8 @@ public class House {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "inmates",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "house_id", referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "house_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
     )
     private Set<User> inmates;
 
