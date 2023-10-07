@@ -1,0 +1,132 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog-master.yaml
+  - changeSet:
+      id: 1
+      author: Chereshnev
+      changes:
+        - createTable:
+            tableName: user_table
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: age
+                  type: tinyint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: house
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: address
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: "user_house_constraint"
+                    references: user_table(id)
+        - rollback:
+            - dropTable:
+                cascadeConstraints: true
+                tableName: house
+            - dropTable:
+                tableName: user_table
+
+  - changeSet:
+      id: 2
+      author: Chereshnev
+      changes:
+        - insert:
+            tableName: user_table
+            columns:
+              - column:
+                  name: name
+                  value: "Chereshnev"
+              - column:
+                  name: age
+                  value: 21
+              - column:
+                  name: password
+                  value: "admin"
+        - insert:
+            tableName: user_table
+            columns:
+              - column:
+                  name: name
+                  value: "Mironov"
+              - column:
+                  name: age
+                  value: 36
+              - column:
+                  name: password
+                  value: "mironovpass"
+        - insert:
+            tableName: user_table
+            columns:
+              - column:
+                  name: name
+                  value: "Laguchev"
+              - column:
+                  name: age
+                  value: 42
+              - column:
+                  name: password
+                  value: "laguchevpass"
+        - insert:
+            tableName: house
+            columns:
+              - column:
+                  name: address
+                  value: "Rostov-on-Don, Sadovaj str. 65"
+              - column:
+                  name: user_id
+                  value: 1
+        - insert:
+            tableName: house
+            columns:
+              - column:
+                  name: address
+                  value: "Rostov-on-Don, Krasnoarmejskaja str. 23"
+              - column:
+                  name: user_id
+                  value: 2
+        - insert:
+            tableName: house
+            columns:
+              - column:
+                  name: address
+                  value: "Rostov-on-Don, Tekucheva str. 128"
+              - column:
+                  name: user_id
+                  value: 1
+        - rollback:
+            - delete:
+                tableName: user_table
+                where: name in ('Chereshnev', 'Mironov', 'Laguchev')
