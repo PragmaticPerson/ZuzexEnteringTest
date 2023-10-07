@@ -1,13 +1,13 @@
-package com.zuzex.service.models;
+package com.zuzex.service.models.DTO;
 
-public class UserResponce {
+public class UserTokenResponse {
     private String name;
     private String accessToken;
 
-    public UserResponce() {
+    public UserTokenResponse() {
     }
 
-    public UserResponce(String name, String accessToken) {
+    public UserTokenResponse(String name, String accessToken) {
         this.name = name;
         this.accessToken = accessToken;
     }

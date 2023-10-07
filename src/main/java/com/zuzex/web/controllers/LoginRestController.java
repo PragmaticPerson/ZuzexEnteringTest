@@ -1,9 +1,10 @@
 package com.zuzex.web.controllers;
 
 import com.zuzex.service.models.User;
-import com.zuzex.service.models.UserRequest;
-import com.zuzex.service.models.UserResponce;
+import com.zuzex.service.models.DTO.UserTokenRequest;
+import com.zuzex.service.models.DTO.UserTokenResponse;
 import com.zuzex.service.services.JwtTokenUtil;
+import com.zuzex.service.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,21 +14,25 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/auth")
 public class LoginRestController {
     private AuthenticationManager authManager;
     private JwtTokenUtil jwtUtil;
+    private UserService userService;
 
     @Autowired
-    public LoginRestController(AuthenticationManager authManager, JwtTokenUtil jwtUtil) {
+    public LoginRestController(AuthenticationManager authManager, JwtTokenUtil jwtUtil, UserService userService) {
         this.authManager = authManager;
         this.jwtUtil = jwtUtil;
+        this.userService = userService;
     }
 
-    @PostMapping("/auth/login")
-    public ResponseEntity<?> login(@RequestBody UserRequest request) {
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserTokenRequest request) {
         try {
             Authentication authentication = authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -36,13 +41,11 @@ public class LoginRestController {
 
             User user = (User) authentication.getPrincipal();
             String accessToken = jwtUtil.generateAccessToken(user);
-            UserResponce response = new UserResponce(user.getName(), accessToken);
+            UserTokenResponse response = new UserTokenResponse(user.getName(), accessToken);
 
             return ResponseEntity.ok().body(response);
 
         } catch (BadCredentialsException ex) {
-            System.out.println("\n\nforbidden\n\n");
-            System.out.println(ex.getLocalizedMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }

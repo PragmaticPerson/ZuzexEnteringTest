@@ -52,7 +52,29 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: "user_house_constraint"
                     references: user_table(id)
+        - createTable:
+            tableName: inmates
+            columns:
+              - column:
+                  name: user_id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    foreignKeyName: "inmates_user_constraint"
+                    references: user_table(id)
+                    nullable: false
+              - column:
+                  name: house_id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    foreignKeyName: "inmates_house_constraint"
+                    references: house(id)
+                    nullable: false
         - rollback:
+            - dropTable:
+                cascadeConstraints: true
+                tableName: inmates
             - dropTable:
                 cascadeConstraints: true
                 tableName: house
@@ -126,6 +148,51 @@ databaseChangeLog:
               - column:
                   name: user_id
                   value: 1
+        - insert:
+            tableName: inmates
+            columns:
+              - column:
+                  name: user_id
+                  value: 1
+              - column:
+                  name: house_id
+                  value: 1
+        - insert:
+            tableName: inmates
+            columns:
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: house_id
+                  value: 1
+        - insert:
+            tableName: inmates
+            columns:
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: house_id
+                  value: 2
+        - insert:
+            tableName: inmates
+            columns:
+              - column:
+                  name: user_id
+                  value: 3
+              - column:
+                  name: house_id
+                  value: 2
+        - insert:
+            tableName: inmates
+            columns:
+              - column:
+                  name: user_id
+                  value: 1
+              - column:
+                  name: house_id
+                  value: 3
         - rollback:
             - delete:
                 tableName: user_table

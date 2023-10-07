@@ -5,20 +5,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserService implements UserDetailsService {
 
-    private UserJpaRepository userJpaRepository;
+    private UserJpaRepository repository;
+    private BCryptPasswordEncoder encoder;
 
     @Autowired
-    public UserService(UserJpaRepository userJpaRepository) {
-        this.userJpaRepository = userJpaRepository;
+    public UserService(UserJpaRepository repository, BCryptPasswordEncoder encoder) {
+        this.repository = repository;
+        this.encoder = encoder;
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userJpaRepository.findByName(username);
+        return repository.findByName(username);
     }
 }

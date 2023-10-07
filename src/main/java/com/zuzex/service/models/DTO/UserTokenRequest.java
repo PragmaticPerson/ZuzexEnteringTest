@@ -1,17 +1,17 @@
-package com.zuzex.service.models;
+package com.zuzex.service.models.DTO;
 
 import com.sun.istack.NotNull;
 
-public class UserRequest {
+public class UserTokenRequest {
     @NotNull
     private String name;
     @NotNull
     private String password;
 
-    public UserRequest() {
+    public UserTokenRequest() {
     }
 
-    public UserRequest(String name, String password) {
+    public UserTokenRequest(String name, String password) {
         this.name = name;
         this.password = password;
     }

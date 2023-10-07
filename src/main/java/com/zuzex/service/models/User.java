@@ -1,5 +1,6 @@
 package com.zuzex.service.models;
 
+import com.zuzex.service.models.DTO.UserResponse;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -25,6 +26,10 @@ public class User implements UserDetails {
         this.name = name;
         this.age = age;
         this.password = password;
+    }
+
+    public UserResponse toUserResponse() {
+        return new UserResponse(name, age);
     }
 
     public int getId() {
