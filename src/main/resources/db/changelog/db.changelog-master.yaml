@@ -74,7 +74,7 @@ databaseChangeLog:
                   value: 21
               - column:
                   name: password
-                  value: "admin"
+                  value: "$2a$12$77CPC/RJSy8QOX6xgWCvk.Un1.FR1StRSnhto5TY/X4HNbzWv0TF."
         - insert:
             tableName: user_table
             columns:
@@ -86,7 +86,7 @@ databaseChangeLog:
                   value: 36
               - column:
                   name: password
-                  value: "mironovpass"
+                  value: "$2a$12$H0zzRZ1yiFgzkkcQvtXkfegEU1iWkU3WK0rbW1kyVsb.NrULNwjoO"
         - insert:
             tableName: user_table
             columns:
@@ -98,7 +98,7 @@ databaseChangeLog:
                   value: 42
               - column:
                   name: password
-                  value: "laguchevpass"
+                  value: "$2a$12$UZMVVZxE8YwafmXaPiSBTO0BCiS8BgNeolHn.i1TFzPuwol.iQ32S"
         - insert:
             tableName: house
             columns:
